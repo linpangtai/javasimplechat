@@ -1,3 +1,3 @@
 # imitateWeChat
-# wechat java version
-# It works with java GUI. 
+wechat java version
+It works with java GUI. 
