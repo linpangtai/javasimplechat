@@ -57,10 +57,10 @@ public class Login extends JFrame {
 		logo.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		close = new JButton();
-		close.setContentAreaFilled(false);//Í¸Ã÷
+		close.setContentAreaFilled(false);
 		close.setBorderPainted(false);
 		close.setFocusPainted(false);
-		close.setIcon(new ImageIcon("close.gif"));
+		close.setIcon(new ImageIcon("./img/close.gif"));
 		
 		NorthPane = new JPanel();
 		NorthPane.setLayout(new BorderLayout());
@@ -70,7 +70,7 @@ public class Login extends JFrame {
 		
 		JPanel Imgjp = new JPanel();
 		showImg = new JLabel();
-		ImageIcon headImage = new ImageIcon("qq.png");
+		ImageIcon headImage = new ImageIcon("./img/weixin.jpg");
 		headImage.setImage(headImage.getImage().getScaledInstance(Login.imgWidth,Login.imgHeight,Image.SCALE_DEFAULT));
 		showImg.setIcon(headImage);
 		Imgjp.add(showImg);
@@ -118,7 +118,7 @@ public class Login extends JFrame {
 		contentPane.add(jppswd);
 		contentPane.add(jplogin);
 		contentPane.add(jprs);
-		contentPane.setBorder(new EmptyBorder(50,0,0,0));
+		contentPane.setBorder(new EmptyBorder(30,0,0,0));
 		
 		this.add(NorthPane,BorderLayout.NORTH);
 		this.add(contentPane,BorderLayout.CENTER);
