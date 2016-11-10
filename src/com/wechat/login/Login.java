@@ -128,6 +128,17 @@ public class Login extends JFrame {
 		this.setVisible(true);
 		
 		
+		
+		//register button Action Listener
+		resign.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				new Register();
+			}
+		});
+		
+		
+		
+		
 		//close button Action Listener
 		close.addMouseListener(new MouseListener(){
 			public void mouseClicked(MouseEvent e) { 
