@@ -51,6 +51,8 @@ public class ClientWindow extends JFrame
 		
 		sendmessButton = new JButton("·¢ËÍ");
 		
+		
+		
 		userList  = new JList(str);	
 		JScrollPane sp1 = new JScrollPane(userList);
 		sp1.setPreferredSize(new Dimension(200,600));
