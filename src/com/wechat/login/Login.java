@@ -15,6 +15,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -126,6 +129,41 @@ public class Login extends JFrame {
 		this.setUndecorated(true);
 		this.setSize(280, 400);
 		this.setVisible(true);
+		
+		//login button Action Listener 
+		
+		login.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				String id = textField.getText();
+				String psw = passwordField.getText();
+				LoginFunction lf = new LoginFunction();
+				boolean Exist = false;
+				try {
+					Exist = lf.isExist(id, psw);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				if(Exist == true)
+				{
+					Socket socket = new Socket();
+					try {
+						socket = lf.Connect();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else
+				{
+					System.out.println("login fail");
+				}
+				
+			}
+		});
+		
 		
 		
 		

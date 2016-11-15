@@ -1,9 +1,13 @@
 package com.wechat.login;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.wechat.client.ClientWindow;
 
 public class LoginFunction 
 {
@@ -26,44 +30,31 @@ public class LoginFunction
         con = DriverManager.getConnection(url , user , password ) ; 
         System.out.println("connect success");
         
-        String sql1 = "USE user";
-        String sql2 = "select * from information";
-        
-        stmt = con.createStatement();
-		stmt.execute(sql1);
-		ResultSet rs = stmt.executeQuery(sql2);
-		
-		while (rs.next()){
-			String namelist = rs.getString(1);
-			String passwordlist = rs.getString(2);
-			if(namelist.equals(name))
-			{
-				if(passwordlist.equals(psw))
-				{
-					System.out.println("login in success!");
-					isExist = true;
-					break;
-				}
-				else
-				{
-					continue;
-				}
-			}
-			else
-			{
-				System.out.println("sorry,user can't be found");
-				isExist = false;
-				return isExist;
-			}
+        if(id != "" & psw != "")
+        {
+        	String use = "USE user";
+            String select = "select * from information where id = " + id + " and password = "+ psw;
+            
+            stmt = con.createStatement();
+    		stmt.execute(use);
+    		isExist = stmt.execute(select);
+    		
+    		return isExist;
+    	
         }
-		return isExist;
-       
+        else
+        {
+        	System.out.println("must have a id");
+        	return isExist;
+        }
+		
 	}
 	
-	public boolean isConnect()
-	{
-		return false;
-		
+	public Socket Connect() throws UnknownHostException, IOException
+	{	
+		new ClientWindow();
+		Socket clientSocket = new Socket("?????????", 8888);//add  ip address;
+		return clientSocket;
 	}
 	
 	
