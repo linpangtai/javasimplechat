@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.Statement;
 import com.wechat.client.ClientWindow;
 
 public class LoginFunction 
@@ -14,6 +15,32 @@ public class LoginFunction
 	public LoginFunction()
 	{
 		
+	}
+	
+	
+	public void register(String acc,String pas) throws ClassNotFoundException, SQLException
+	{
+		String url = "jdbc:mysql://127.0.0.1:3306/user";
+        String name = "com.mysql.jdbc.Driver"; 
+        String user = "root";  
+        String password = "";  
+        Connection conn = null;
+        
+        
+        
+        String sqlexc = "USE user";
+        String sqlins = "insert into information (id,password) values"+'('+acc +','+ pas +')';
+        
+		Class.forName(name);
+		conn = DriverManager.getConnection(url , user , password ) ;
+    	System.out.println("connect success");
+
+    	Statement stmt1 = (Statement) conn.createStatement();
+    	stmt1.execute(sqlexc);
+    	stmt1.execute(sqlins);
+    	
+        
+        
 	}
 	
 	public boolean isExist(String id,String psw) throws SQLException, ClassNotFoundException

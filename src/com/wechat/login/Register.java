@@ -1,5 +1,7 @@
 package com.wechat.login;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -22,68 +24,17 @@ public class Register extends JFrame
 	private JButton Jb1;
 	private JButton Jb2;
 	
+	private int width;
+	private int height;
 	
 	
-	public void registe(String acc,String pas)
-	{
-		String url = "jdbc:mysql://127.0.0.1:3306/user";
-        String name = "com.mysql.jdbc.Driver"; 
-        String user = "root";  
-        String password = "";  
-        Connection conn = null;
-        
-        
-        
-        String sqlexc = "USE user";
-        String sqlins = "insert into information (id,password) values"+'('+acc +','+ pas +')';
-        
-        //System.out.println(acc);
-        //System.out.println(pas);
-        
-        
-        
-        java.sql.Statement stmt = null;
-        
-        try 
-    	{
-			Class.forName(name);
-		}
-    	
-    	catch (ClassNotFoundException e1) 
-    	{
-			e1.printStackTrace();
-		}
-		
-		try 
-		{
-			conn = DriverManager.getConnection(url , user , password ) ;
-		} 
-		catch (SQLException e1) 
-		{
-			e1.printStackTrace();
-			
-		} 
-    	System.out.println("Á´½Ó³É¹¦");
-    	
-    	try
-    	{
-    		Statement stmt1 = (Statement) conn.createStatement();
-    		stmt1.execute(sqlexc);
-    		stmt1.execute(sqlins);
-    	}
-    	catch(Exception e1)
-    	{
-    		e1.printStackTrace();
-    		System.out.println("hello");
-    	}
-        
-        
-	}
+	
+	
 	public Register()
 	{
-		
-		
-		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		height = (int) screenSize.getHeight();
+		width = (int) screenSize.getWidth(); 
 		
 		Jp = new JPanel();
 		Jb1 = new JButton("×¢²á");
@@ -104,8 +55,8 @@ public class Register extends JFrame
 		Jp.add(Jb2);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(3);
-		this.setSize(150, 200);
-		
+		this.setSize(150, 220);
+		this.setLocation(width/2-140,height/2-200);
     	
         
        
@@ -118,11 +69,25 @@ public class Register extends JFrame
 				
 				if(acc != null || pas != null)
 				{
-					registe(acc,pas);
+					LoginFunction lf = new LoginFunction();
+					try {
+						lf.register(acc,pas);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
 		
+		Jb2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				new Login();
+				
+			}
+		});
 		
 		
 	}

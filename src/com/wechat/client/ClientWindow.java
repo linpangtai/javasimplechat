@@ -6,8 +6,16 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.SocketException;
 
 import javax.swing.*;
+
 
 public class ClientWindow extends JFrame
 {
@@ -21,7 +29,7 @@ public class ClientWindow extends JFrame
 	private JTextField viewField;
 	private JList userList;
 	private JButton sendmessButton;
-	
+	private ClientFunction cf;
 	
 	
 	private String[] str = {"monday","Tuesday","wednesday",
@@ -32,6 +40,8 @@ public class ClientWindow extends JFrame
 			"wa","we","do","this","together"};
 	public ClientWindow()
 	{
+		cf = new ClientFunction();
+		cf.connect();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		height = (int) screenSize.getHeight();
 		width = (int) screenSize.getWidth();
@@ -51,6 +61,22 @@ public class ClientWindow extends JFrame
 		
 		sendmessButton = new JButton("发送");
 		
+		sendmessButton.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						String str = viewField.getText();
+						viewField.setText("");
+						try {
+							cf.sendMess(str);
+							//System.out.println("经过了此过程");
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+				});
 		
 		
 		userList  = new JList(str);	
@@ -84,13 +110,49 @@ public class ClientWindow extends JFrame
 		this.setSize(900,600);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(3);
+		//this.setDefaultCloseOperation(3);
 		
+		this.addWindowListener(new WindowAdapter() { //响应关闭窗口事件
+            public void windowClosing(WindowEvent e) {
+                cf.disconnect();
+                System.exit(0);
+            }
+        });
+		
+		//cf.connect();
+		recvThread r = new recvThread(); 
+		new Thread(r).start();
+		
+		
+		
+
+		}
+		class recvThread implements Runnable {
+			public String message;// 客户端线程接收数据
+			public void run() {
+				try {
+					System.out.println("这次经历了的东西");
+					while (true) {
+						System.out.println("经过了此过程");
+						String str;
+						str = cf.dis.readUTF();
+						message += str;// 拿到数据
+						viewArea.setText(viewArea.getText() + str + "\n");
+						
+					}
+				} catch (SocketException e) {
+					System.out.println("退出了");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		
 	}
+	
 	public static void main(String args[])
 	{
-		new ClientWindow();
+		ClientWindow cw = new ClientWindow();
+		
 	}
 	
 }
