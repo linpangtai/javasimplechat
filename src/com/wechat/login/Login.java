@@ -28,6 +28,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.wechat.information.User;
+
 
 
 public class Login extends JFrame {
@@ -49,6 +51,7 @@ public class Login extends JFrame {
 	private int xx, yy;
 	private boolean isDraging = false;
 	static Point origin = new Point();
+
 	
 	
 	public Login(){
@@ -148,9 +151,10 @@ public class Login extends JFrame {
 				
 				if(Exist == true)
 				{
-					Socket socket = new Socket();
 					try {
-						socket = lf.Connect();
+						lf.Connect(id);
+						dispose();
+						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -274,10 +278,9 @@ public class Login extends JFrame {
 		});
 	
 	}
-	
-	
+
 	public static void main(String args[]){
-		new Login();
+		Login login = new Login();
 	}
 
 }

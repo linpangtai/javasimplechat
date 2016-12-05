@@ -1,9 +1,12 @@
 package com.wechat.server;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,6 +29,7 @@ public class ServerWindow
 	private JButton banuser;
 	private JButton noban;*/
 	List<ChatClient> clients = new ArrayList<ChatClient>();
+	private String[] name;
 	
 	public static void main(String args[])
 	{
@@ -33,12 +37,28 @@ public class ServerWindow
 		sw.start();
 	}
 	
+	
+	/*public String getInfo(Socket s) throws IOException
+	{
+		InputStream is = s.getInputStream();
+		BufferedReader br=new BufferedReader(new InputStreamReader(is));  
+		String info=null;  
+		while(!((info=br.readLine())==null)){  
+	                System.out.println("我是服务器，用户信息为："+info);  
+	                
+		}
+		//System.out.println("有经历此过程");
+		return info;
+		
+		
+	}*/
 	void start()
 	{
 		try 
 		{
 			ss = new ServerSocket(8888);
 			started = true;
+			
 		}
 		catch(BindException e)
 		{
@@ -49,11 +69,11 @@ public class ServerWindow
 		}
 		
 		while(started)
-		{
-			try {
+		{ 
+			
+			try {			
 				Socket s = ss.accept();
 				ChatClient c = new ChatClient(s);
-				c = new ChatClient(s);
 				System.out.println("客户端成功连接");
 				new Thread(c).start();
 				clients.add(c);
@@ -72,6 +92,7 @@ public class ServerWindow
 		private Socket s;
 		DataInputStream dis;
 		DataOutputStream dos;
+
 		
 		boolean bConnected;
 		
@@ -97,8 +118,10 @@ public class ServerWindow
 		public void run()
 		{
 			 try {
-	                while (bConnected) {
+					while (bConnected) {
 	                    String str = dis.readUTF();
+	                    
+	                    
 	                    //System.out.println(str);
 	                    for (int i = 0; i < clients.size(); i++) {
 	                        ChatClient c = clients.get(i);

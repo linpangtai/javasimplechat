@@ -1,6 +1,10 @@
 package com.wechat.login;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -9,6 +13,7 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.Statement;
 import com.wechat.client.ClientWindow;
+import com.wechat.information.User;
 
 public class LoginFunction 
 {
@@ -77,12 +82,25 @@ public class LoginFunction
 		
 	}
 	
-	public Socket Connect() throws UnknownHostException, IOException
+	public void Connect(String id) throws UnknownHostException, IOException
 	{	
-		new ClientWindow();
-		Socket clientSocket = new Socket("?????????", 8888);//add  ip address;
-		return clientSocket;
+		ClientWindow cw = new ClientWindow(id);
+		
 	}
+	
+
+	
+	/*public void sendinfor(String id) throws UnknownHostException, IOException
+	{
+		Socket s = new Socket("127.0.0.1",8888);
+		OutputStream os = s.getOutputStream();
+		PrintWriter pw = new PrintWriter(os);
+		pw.write(id);
+		pw.flush();
+		pw.close();
+		System.out.println("πÿ±’¡À");
+		s.close();
+	}*/
 	
 	
 	

@@ -1,18 +1,14 @@
 package com.wechat.information;
 
-import java.net.Socket;
-
 public class User 
 {
 	public String id;
 	public String name;
-	private Socket uSocket;
 	
-	public User(String id,String name,Socket sc)
+	public User(String id,String name)
 	{
 		this.id = id;
-		this.name = name;
-		this.uSocket = sc;
+		this.name = name;;
 	}
 	
 	public void setName(String newName)
@@ -23,11 +19,6 @@ public class User
 	public String getName()
 	{
 		return name;
-	}
-	
-	public Socket getSocket()
-	{
-		return uSocket;
 	}
 	
 	public String getId()

@@ -55,31 +55,27 @@ public class ClientFunction
 	    }
 	
 	 
-	 
-	 
-	
-	 //receive the message from others
-	
-  	
-
-	
 	//send message to others
 	public void sendMess(String message) throws UnknownHostException, IOException
 	{
 		dos.writeUTF(message);
 		dos.flush();
+		System.out.println("发送成功");
 	}
 	
-	//send information to server
-	public void sendInformation()
+	public String getMess()
 	{
-		
+		try {
+			return dis.readUTF();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("退出了");
+			return null;
+		}
 	}
 	
-	public void getUser()
-	{
-		
-	}
+	//send name to servers;
 	
 	
 	

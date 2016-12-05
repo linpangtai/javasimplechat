@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javax.swing.*;
 
@@ -30,15 +31,9 @@ public class ClientWindow extends JFrame
 	private JList userList;
 	private JButton sendmessButton;
 	private ClientFunction cf;
+	private String[] str = {"abc"};
 	
-	
-	private String[] str = {"monday","Tuesday","wednesday",
-			"Thursday","friday","no",
-			"hello","world","new","yes","ok","but","i","am","your",
-			"father","haha","what","because",
-			"thankyou","wa","we","do","this","together","thankyou",
-			"wa","we","do","this","together"};
-	public ClientWindow()
+	public ClientWindow(String id)
 	{
 		cf = new ClientFunction();
 		cf.connect();
@@ -68,7 +63,7 @@ public class ClientWindow extends JFrame
 						String str = viewField.getText();
 						viewField.setText("");
 						try {
-							cf.sendMess(str);
+							cf.sendMess(id+":"+str);
 							//System.out.println("经过了此过程");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -110,6 +105,7 @@ public class ClientWindow extends JFrame
 		this.setSize(900,600);
 		this.setResizable(false);
 		this.setVisible(true);
+		this.setTitle(id);
 		//this.setDefaultCloseOperation(3);
 		
 		this.addWindowListener(new WindowAdapter() { //响应关闭窗口事件
@@ -122,28 +118,17 @@ public class ClientWindow extends JFrame
 		//cf.connect();
 		recvThread r = new recvThread(); 
 		new Thread(r).start();
-		
-		
-		
 
 		}
 		class recvThread implements Runnable {
 			public String message;// 客户端线程接收数据
 			public void run() {
-				try {
-					System.out.println("这次经历了的东西");
-					while (true) {
-						System.out.println("经过了此过程");
-						String str;
-						str = cf.dis.readUTF();
-						message += str;// 拿到数据
-						viewArea.setText(viewArea.getText() + str + "\n");
-						
-					}
-				} catch (SocketException e) {
-					System.out.println("退出了");
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				while (true) {
+					String str;
+					str = cf.getMess();
+					message += str;// 拿到数据
+					viewArea.setText(viewArea.getText() + str + "\n");
+					
 				}
 			}
 		
@@ -151,7 +136,7 @@ public class ClientWindow extends JFrame
 	
 	public static void main(String args[])
 	{
-		ClientWindow cw = new ClientWindow();
+		
 		
 	}
 	
